@@ -17,43 +17,43 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 
-	"github.com/spf13/cobra"
 	"github.com/kchatr/exp/todo"
+	"github.com/spf13/cobra"
 )
 
-// createCmd represents the create command
-var createCmd = &cobra.Command{
-	Use:   "create",
-	Short: "Create a new To-Do",
-	Long: `This command creates a new To-Do item for your list.`,
-	Run: addRun,
-}
+// listCmd represents the list command
+var listCmd = &cobra.Command{
+	Use:   "list",
+	Short: "A brief description of your command",
+	Long: `A longer description that spans multiple lines and likely contains examples
+and usage of using your command. For example:
 
-func addRun(cmd *cobra.Command, args []string) {
+Cobra is a CLI library for Go that empowers applications.
+This application is a tool to generate the needed files
+to quickly create a Cobra application.`,
+	Run: func(cmd *cobra.Command, args []string) {
+		items, err := todo.ReadItems("C:/Users/cha_k/.expdos.json")
 
-	items := []todo.Item{} // An array of To-Do items
-	
-	for _, i := range args {
-		items = append(items, todo.Item{Text : i}) // Create a To-Do item from Item struct
-	}
-	err := todo.SaveItems("C:/Users/cha_k/.expdos.json", items)
+		if err != nil {
+			log.Printf("%v", err)
+		} 
 
-	if err != nil {
-		fmt.Errorf("%v", err)
-	}
+		fmt.Println(items)
+	},
 }
 
 func init() {
-	rootCmd.AddCommand(createCmd)
+	rootCmd.AddCommand(listCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// createCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// createCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
