@@ -19,6 +19,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/cobra"
+	"github.com/kchatr/exp/todo"
 )
 
 // createCmd represents the create command
@@ -30,9 +31,16 @@ var createCmd = &cobra.Command{
 }
 
 func addRun(cmd *cobra.Command, args []string) {
+
+	items := []todo.Item{} // An array of To-Do items
 	
 	for _, i := range args {
-		fmt.Println(i)
+		items = append(items, todo.Item{Text : i}) // Create a To-Do item from Item struct
+	}
+	err := todo.SaveItems("C:/Users/cha_k/.expdos.json", items)
+
+	if err != nil {
+		fmt.Errorf("%v", err)
 	}
 }
 
