@@ -17,7 +17,7 @@ package cmd
 
 import (
 	"fmt"
-
+	"log"
 	"github.com/spf13/cobra"
 	"github.com/kchatr/exp/todo"
 )
@@ -32,15 +32,14 @@ var createCmd = &cobra.Command{
 
 func addRun(cmd *cobra.Command, args []string) {
 
-	items := []todo.Item{} // An array of To-Do items
+	items, err := todo.ReadItems("C:/Users/cha_k/.expdos.json") // An array of To-Do items
 	
-	for _, i := range args {
-		items = append(items, todo.Item{Text : i}) // Create a To-Do item from Item struct
-	}
-	err := todo.SaveItems("C:/Users/cha_k/.expdos.json", items)
-
 	if err != nil {
-		fmt.Errorf("%v", err)
+		log.Printf("%v", err)
+	}
+
+	for _, item := range args{
+		items = append(items, todo.Item{Text : item})
 	}
 }
 
