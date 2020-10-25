@@ -1,13 +1,40 @@
 package todo
 
 import (
-	"fmt"
+	"strconv"
 	"encoding/json"
 	"io/ioutil"
 )
 
 type Item struct {
 	Text string
+	Priority int
+	position int
+}
+
+func (i *Item) SetPriority(pri int) {
+	switch pri {
+	case 1:
+		i.Priority = 1
+	case 3:
+		i.Priority = 3
+	default:
+		i.Priority = 2
+	}
+}
+
+func (i *Item) Label() string {
+	return strconv.Itoa(i.position) + "."
+}
+
+func (i *Item) PPrinting() string {
+	if i.Priority == 1 {
+		return "(1)"
+	} else if i.Priority == 3{
+		return "(3)"
+	} else {
+		return " "
+	}
 }
 
 func SaveItems(filename string, items []Item) error {
@@ -19,7 +46,6 @@ func SaveItems(filename string, items []Item) error {
 		return err
 	}
 
-	fmt.Println(string(b))
 
 	return nil
 }
@@ -36,6 +62,10 @@ func ReadItems(filename string) ([]Item, error) {
 
 	if err := json.Unmarshal(b, &items); err != nil {
 		return []Item{}, err
+	}
+
+	for i, _ := range items {
+		items[i].position = i + 1
 	}
 
 	return items, nil

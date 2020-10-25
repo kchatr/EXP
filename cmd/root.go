@@ -17,6 +17,7 @@ package cmd
 
 import (
 	"fmt"
+	"log"
 	"github.com/spf13/cobra"
 	"os"
 
@@ -25,6 +26,7 @@ import (
 )
 
 var cfgFile string
+var dataFile string
 
 // rootCmd represents the base command when called without any subcommands
 var rootCmd = &cobra.Command{
@@ -50,10 +52,17 @@ func Execute() {
 func init() {
 	cobra.OnInitialize(initConfig)
 
+	home, err := homedir.Dir()
+
+	if err != nil {
+		log.Println("Unable to locate your home directory. Please set the datafile using --datafile.")
+	}
+
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
+	rootCmd.PersistentFlags().StringVar(&dataFile, "datafile", home + string(os.PathSeparator) + ".expdos.json", "data file to store To-Do's.")
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.exp.yaml)")
 
 	// Cobra also supports local flags, which will only run

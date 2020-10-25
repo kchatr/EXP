@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"github.com/spf13/cobra"
 	"github.com/kchatr/exp/todo"
@@ -30,6 +29,8 @@ var createCmd = &cobra.Command{
 	Run: addRun,
 }
 
+var priority int
+
 func addRun(cmd *cobra.Command, args []string) {
 
 	items, err := todo.ReadItems("C:/Users/cha_k/.expdos.json") // An array of To-Do items
@@ -38,13 +39,19 @@ func addRun(cmd *cobra.Command, args []string) {
 		log.Printf("%v", err)
 	}
 
-	for _, item := range args{
-		items = append(items, todo.Item{Text : item})
+	for _, i := range args{
+		item := todo.Item{Text: i}
+		item.SetPriority(priority)
+		items = append(items, item)
 	}
+
+	err = todo.SaveItems(dataFile, items)
 }
 
 func init() {
 	rootCmd.AddCommand(createCmd)
+
+	createCmd.Flags().IntVarP(&priority, "priority", "p", 2, "Set the priority of the To-Do:1,2,3")
 
 	// Here you will define your flags and configuration settings.
 
