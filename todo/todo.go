@@ -12,13 +12,15 @@ type Item struct {
 	position int
 }
 
+type ByPri []Item
+
 func (i *Item) SetPriority(pri int) {
 	switch pri {
 	case 1:
 		i.Priority = 1
 	case 3:
 		i.Priority = 3
-	default:
+	default:	
 		i.Priority = 2
 	}
 }
@@ -69,4 +71,20 @@ func ReadItems(filename string) ([]Item, error) {
 	}
 
 	return items, nil
+}
+
+func (s ByPri) Len() int {
+	return len(s)
+}
+
+func (s ByPri) Swap(i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
+
+func (s ByPri) Less(i, j int) bool{
+	if s[i].Priority == s[j].Priority {
+		return s[i].position < s[j].position
+	} else {
+		return s[i].Priority < s[j].Priority
+	}
 }

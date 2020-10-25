@@ -18,6 +18,7 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"sort"
 	"os"
 	"text/tabwriter"
 	"github.com/kchatr/exp/todo"
@@ -39,10 +40,12 @@ func listRun(cmd *cobra.Command, args []string) {
 		log.Printf("%v", err)
 	} 
 
+	sort.Sort(todo.ByPri(items))
+
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 
 	for _, i := range items {
-		fmt.Fprintln(w, i.PPrinting() + "\t" + i.Text + "\t")
+		fmt.Fprintln(w, i.Label(), i.PPrinting() + "\t" + i.Text + "\t")
 	}
 
 	w.Flush()
