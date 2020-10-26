@@ -9,7 +9,8 @@ import (
 type Item struct {
 	Text string
 	Priority int
-	position int
+	Position int
+	Done bool
 }
 
 type ByPri []Item
@@ -26,10 +27,10 @@ func (i *Item) SetPriority(pri int) {
 }
 
 func (i *Item) Label() string {
-	return strconv.Itoa(i.position) + "."
+	return strconv.Itoa(i.Position) + "."
 }
 
-func (i *Item) PPrinting() string {
+func (i *Item) PrettyPrint() string {
 	if i.Priority == 1 {
 		return "(1)"
 	} else if i.Priority == 3{
@@ -67,7 +68,7 @@ func ReadItems(filename string) ([]Item, error) {
 	}
 
 	for i, _ := range items {
-		items[i].position = i + 1
+		items[i].Position = i + 1
 	}
 
 	return items, nil
@@ -82,9 +83,22 @@ func (s ByPri) Swap(i, j int) {
 }
 
 func (s ByPri) Less(i, j int) bool{
-	if s[i].Priority == s[j].Priority {
-		return s[i].position < s[j].position
+	i1 := s[i]
+	i2 := s[j]
+
+	if i1.Done != i2.Done {
+		return i1.Done
+	} else if i1.Priority != i2.Priority{
+		return i1.Priority < i2.Priority
 	} else {
-		return s[i].Priority < s[j].Priority
+		return i1.Position < i2.Position
+	}
+}
+
+func (i *Item) PrettyDone() string {
+	if i.Done == true {
+		return "X"
+	} else {
+		return ""
 	}
 }

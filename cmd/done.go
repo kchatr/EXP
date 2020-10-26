@@ -18,50 +18,51 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"strconv"
 	"sort"
-	"os"
-	"text/tabwriter"
 	"github.com/kchatr/exp/todo"
 	"github.com/spf13/cobra"
 )
 
-// listCmd represents the list command
-var listCmd = &cobra.Command{
-	Use:   "list",
-	Short: "List your current To-Do's",
-	Long: `Listing all of the current To-Do's saved.`,
-	Run: listRun,
+// doneCmd represents the done command
+var doneCmd = &cobra.Command{
+	Use:   "done",
+	Aliases: []string{"do"},
+	Short: "Mark To-Do as done.",
+	Long: `When you complete a To-Do on your list, run the done command to mark it as finished.`,
+	Run: doneRun,
 }
 
-func listRun(cmd *cobra.Command, args []string) {
+func doneRun(cmd *cobra.Command, args []string) {
 	items, err := todo.ReadItems(dataFile)
+	i, err := strconv.Atoi(args[0])
 
 	if err != nil {
-		log.Printf("%v", err)
-	} 
-
-	sort.Sort(todo.ByPri(items))
-
-	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
-
-	for _, i := range items {
-		fmt.Fprintln(w, i.Label() + "\t" + i.PrettyDone() + "\t" + i.PrettyPrint() + "\t" + i.Text + "\t")
+		log.Fatalln(args[0], "is not a valid label\n", err)
 	}
 
-	w.Flush()
+	if i > 0 && i < len(items) {
+		items[i-1].Done = true
+		fmt.Printf("%q %v\n", items[i - 1].Text, "marked done.")
+
+		sort.Sort(todo.ByPri(items))
+		todo.SaveItems(dataFile, items)
+	} else {
+		log.Println(i, "doesn't match any numbers")
+	}
 
 }
 
 func init() {
-	rootCmd.AddCommand(listCmd)
+	rootCmd.AddCommand(doneCmd)
 
 	// Here you will define your flags and configuration settings.
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
-	// listCmd.PersistentFlags().String("foo", "", "A help for foo")
+	// doneCmd.PersistentFlags().String("foo", "", "A help for foo")
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	// listCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	// doneCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
