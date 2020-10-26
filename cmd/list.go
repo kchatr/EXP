@@ -33,6 +33,11 @@ var listCmd = &cobra.Command{
 	Run: listRun,
 }
 
+var (
+	doneFlag bool
+	allFlag bool
+)
+
 func listRun(cmd *cobra.Command, args []string) {
 	items, err := todo.ReadItems(dataFile)
 
@@ -45,7 +50,9 @@ func listRun(cmd *cobra.Command, args []string) {
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 
 	for _, i := range items {
-		fmt.Fprintln(w, i.Label() + "\t" + i.PrettyDone() + "\t" + i.PrettyPrint() + "\t" + i.Text + "\t")
+		if allFlag || i.Done == doneFlag {
+			fmt.Fprintln(w, i.Label() + "\t" + i.PrettyDone() + "\t" + i.PrettyPrint() + "\t" + i.Text + "\t")
+		}
 	}
 
 	w.Flush()
@@ -54,6 +61,9 @@ func listRun(cmd *cobra.Command, args []string) {
 
 func init() {
 	rootCmd.AddCommand(listCmd)
+
+	listCmd.Flags().BoolVar(&doneFlag, "done", false, "Show 'Done' To-Do's")
+	listCmd.Flags().BoolVar(&allFlag, "all", false, "Show all To-Do's")
 
 	// Here you will define your flags and configuration settings.
 

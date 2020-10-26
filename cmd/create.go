@@ -16,8 +16,10 @@ limitations under the License.
 package cmd
 
 import (
+	"fmt"
 	"log"
 	"github.com/spf13/cobra"
+	// "github.com/spf13/viper"
 	"github.com/kchatr/exp/todo"
 )
 
@@ -33,7 +35,7 @@ var priority int
 
 func addRun(cmd *cobra.Command, args []string) {
 
-	items, err := todo.ReadItems("C:/Users/cha_k/.expdos.json") // An array of To-Do items
+	items, err := todo.ReadItems(dataFile) // An array of To-Do items
 	
 	if err != nil {
 		log.Printf("%v", err)
@@ -45,7 +47,9 @@ func addRun(cmd *cobra.Command, args []string) {
 		items = append(items, item)
 	}
 
-	err = todo.SaveItems(dataFile, items)
+	if err := todo.SaveItems(dataFile, items); err != nil {
+		fmt.Errorf("%v", err)
+	}
 }
 
 func init() {
