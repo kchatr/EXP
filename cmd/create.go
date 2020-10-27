@@ -26,6 +26,7 @@ import (
 // createCmd represents the create command
 var createCmd = &cobra.Command{
 	Use:   "create",
+	Aliases: []string{"add"},
 	Short: "Create a new To-Do",
 	Long: `This command creates a new To-Do item for your list.`,
 	Run: addRun,

@@ -28,6 +28,7 @@ import (
 // listCmd represents the list command
 var listCmd = &cobra.Command{
 	Use:   "list",
+	Aliases: []string{"ls"},
 	Short: "List your current To-Do's",
 	Long: `Listing all of the current To-Do's saved.`,
 	Run: listRun,
