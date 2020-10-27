@@ -16,7 +16,6 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
 	"log"
 	"github.com/spf13/cobra"
 	// "github.com/spf13/viper"
@@ -35,7 +34,6 @@ var createCmd = &cobra.Command{
 var priority int
 
 func addRun(cmd *cobra.Command, args []string) {
-
 	items, err := todo.ReadItems(dataFile) // An array of To-Do items
 	
 	if err != nil {
@@ -49,7 +47,7 @@ func addRun(cmd *cobra.Command, args []string) {
 	}
 
 	if err := todo.SaveItems(dataFile, items); err != nil {
-		fmt.Errorf("%v", err)
+		log.Printf("%v", err)
 	}
 }
 

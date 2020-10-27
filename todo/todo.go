@@ -1,6 +1,7 @@
 package todo
 
 import (
+	"os"
 	"strconv"
 	"encoding/json"
 	"io/ioutil"
@@ -54,6 +55,10 @@ func SaveItems(filename string, items []Item) error {
 }
 
 func ReadItems(filename string) ([]Item, error) {
+
+	if _, file_err := os.Stat(filename); os.IsNotExist(file_err) {
+		return []Item{}, nil
+	} 
 
 	b, err := ioutil.ReadFile(filename)
 
