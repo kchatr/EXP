@@ -54,7 +54,7 @@ func addRun(cmd *cobra.Command, args []string) {
 func init() {
 	rootCmd.AddCommand(createCmd)
 
-	createCmd.Flags().IntVarP(&priority, "priority", "p", 2, "Set the priority of the To-Do:1,2,3")
+	createCmd.Flags().IntVarP(&priority, "priority", "p", 2, "Set the priority of the To-Do: 1; 2; 3")
 
 	// Here you will define your flags and configuration settings.
 

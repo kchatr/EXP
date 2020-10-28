@@ -34,11 +34,11 @@ func (i *Item) Label() string {
 
 func (i *Item) PrettyPrint() string {
 	if i.Priority == 1 {
-		return "(1)"
+		return "(1)-High"
 	} else if i.Priority == 3{
-		return "(3)"
+		return "(3)-Low"
 	} else {
-		return " "
+		return "(2)-Med" 
 	}
 }
 
@@ -104,8 +104,8 @@ func (s ByPri) Less(i, j int) bool{
 
 func (i *Item) PrettyDone() string {
 	if i.Done == true {
-		return "X"
+		return "✓"
 	} else {
-		return ""
+		return "X"
 	}
 }

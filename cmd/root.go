@@ -32,7 +32,7 @@ var rootCmd = &cobra.Command{
 	Use:   "exp",
 	Short: "EXP is a minimalistic, yet powerful CLI To-Do List",
 	Long: `
-	EXP is designed to be minimalistic and unobtrusive, allowing you to focus on what really matters. Accomplish more in less time while having complete control over your To-Do list. As Mark Twain said, 'The secret of getting ahead is getting started. The secret of getting started is breaking your complex overwhelming tasks into small, manageable tasks, and then starting on the first one.'
+	EXP is designed to be minimalistic and unobtrusive, allowing you to focus on what really matters. As Mark Twain said, 'The secret of getting ahead is getting started. The secret of getting started is breaking your complex overwhelming tasks into small, manageable tasks, and then starting on the first one.'
 	`,
 	// Uncomment the following line if your bare application
 	// has an action associated with it:
