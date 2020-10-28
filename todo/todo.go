@@ -2,6 +2,7 @@ package todo
 
 import (
 	"os"
+	"log"
 	"strconv"
 	"encoding/json"
 	"io/ioutil"
@@ -57,6 +58,7 @@ func SaveItems(filename string, items []Item) error {
 func ReadItems(filename string) ([]Item, error) {
 
 	if _, file_err := os.Stat(filename); os.IsNotExist(file_err) {
+		log.Println("No To-Do's in Your List - use the create command to get started!")
 		return []Item{}, nil
 	} 
 
