@@ -54,6 +54,8 @@ func listRun(cmd *cobra.Command, args []string) {
 
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 
+	fmt.Fprintln(w, "Position" + "\t" + "Done?" + "\t" + "Priority" + "\t" + "Task")
+
 	for _, i := range items {
 		if allFlag || i.Done == doneFlag {
 			fmt.Fprintln(w, i.Label() + "\t" + i.PrettyDone() + "\t" + i.PrettyPrint() + "\t" + i.Text + "\t")
