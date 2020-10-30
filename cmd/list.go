@@ -42,6 +42,10 @@ var (
 func listRun(cmd *cobra.Command, args []string) {
 	items, err := todo.ReadItems(dataFile)
 
+	if len(items) == 0 {
+		log.Println("No To-Do's in Your List - use the create command to get started!")
+	}
+
 	if err != nil {
 		log.Printf("%v", err)
 	} 

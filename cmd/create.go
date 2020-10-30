@@ -34,6 +34,11 @@ var createCmd = &cobra.Command{
 var priority int
 
 func addRun(cmd *cobra.Command, args []string) {
+	
+	if len(args) == 0 {
+		log.Printf("No argument. Please enter the To-Do you would like to create.")
+	}
+
 	items, err := todo.ReadItems(dataFile) // An array of To-Do items
 	
 	if err != nil {

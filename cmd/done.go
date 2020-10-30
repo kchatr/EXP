@@ -35,6 +35,11 @@ var doneCmd = &cobra.Command{
 }
 
 func doneRun(cmd *cobra.Command, args []string) {
+
+	if len(args) == 0 {
+		log.Println("Please enter the position of the To-Do you would like to mark as compelted.")
+	}
+	
 	items, err := todo.ReadItems(dataFile)
 	i, err := strconv.Atoi(args[0])
 
@@ -42,7 +47,8 @@ func doneRun(cmd *cobra.Command, args []string) {
 		log.Fatalln(args[0], "is not a valid label\n", err)
 	}
 
-	if i > 0 && i < len(items) {
+
+	if i > 0 {
 		items[i-1].Done = true
 		fmt.Printf("%q %v\n", items[i - 1].Text, "marked done.")
 
