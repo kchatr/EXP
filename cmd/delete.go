@@ -16,7 +16,10 @@ limitations under the License.
 package cmd
 
 import (
+	"log"
+	"strconv"
 	"github.com/spf13/cobra"
+	"github.com/kchatr/exp/todo"
 )
 
 // deleteCmd represents the delete command
@@ -28,7 +31,26 @@ var deleteCmd = &cobra.Command{
 	Run: deleteRun,
 }
 
+func remove(s []todo.Item, p int) []todo.Item {
+	s[len(s)-1], s[p] = s[p], s[len(s)-1]
+    return s[:len(s)-1]
+}
+
 func deleteRun(cmd *cobra.Command, args []string) {
+	if len(args) == 0 {
+		log.Printf("No argument. Please enter the To-Do you would like to create.")
+	}
+
+
+	items, err := todo.ReadItems(dataFile)
+
+	// if err != nil {
+	// 	log.Printf("%v", err)
+	// }
+
+	// pos, err := strconv.Atoi(args[0])
+	// pos--;
+	// items[pos] = items[len(items) - 1]
 
 }
 
