@@ -37,20 +37,39 @@ func remove(s []todo.Item, p int) []todo.Item {
 }
 
 func deleteRun(cmd *cobra.Command, args []string) {
+
+	var args_int = []int{}
+
 	if len(args) == 0 {
 		log.Printf("No argument. Please enter the To-Do you would like to create.")
+	}
+
+	for _, i := range args {
+		j, err := strconv.Atoi(i)
+
+		if err != nil {
+			panic(err)
+		}
+
+		j--
+
+		args_int = append(args_int, j)
 	}
 
 
 	items, err := todo.ReadItems(dataFile)
 
-	// if err != nil {
-	// 	log.Printf("%v", err)
-	// }
+	if err != nil {
+		log.Printf("%v", err)
+	}
 
-	// pos, err := strconv.Atoi(args[0])
-	// pos--;
-	// items[pos] = items[len(items) - 1]
+	for _, i := range args_int {
+		items = remove(items, i)
+	}
+
+	if err := todo.SaveItems(dataFile, items); err != nil {
+		log.Printf("%v", err)
+	}
 
 }
 
