@@ -44,6 +44,7 @@ func listRun(cmd *cobra.Command, args []string) {
 
 	if len(items) == 0 {
 		log.Println("No To-Do's in Your List - use the create command to get started!")
+		return
 	}
 
 	if err != nil {

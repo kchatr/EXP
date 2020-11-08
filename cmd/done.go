@@ -38,6 +38,7 @@ func doneRun(cmd *cobra.Command, args []string) {
 
 	if len(args) == 0 {
 		log.Println("Please enter the position of the To-Do you would like to mark as compelted.")
+		return
 	}
 	
 	items, err := todo.ReadItems(dataFile)

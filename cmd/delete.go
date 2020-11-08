@@ -25,7 +25,7 @@ import (
 // deleteCmd represents the delete command
 var deleteCmd = &cobra.Command{
 	Use:   "delete",
-	Aliases: []string{"del", "rm"},
+	Aliases: []string{"del", "remove", "rm"},
 	Short: "Delete a To-Do",
 	Long: `Delete a To-Do from your To-Do list. This cannot be undone.`,
 	Run: deleteRun,
@@ -41,7 +41,7 @@ func deleteRun(cmd *cobra.Command, args []string) {
 	var args_int = []int{}
 
 	if len(args) == 0 {
-		log.Printf("No argument. Please enter the To-Do you would like to create.")
+		log.Printf("No argument. Please enter the position of the To-Do you would like to delete.")
 	}
 
 	for _, i := range args {
@@ -64,6 +64,10 @@ func deleteRun(cmd *cobra.Command, args []string) {
 	}
 
 	for _, i := range args_int {
+		if i > len(items) {
+			log.Printf("No To-Do with Position %d - please enter a number between 1 and %d", (i + 1), len(items))
+			return
+		}
 		items = remove(items, i)
 	}
 
