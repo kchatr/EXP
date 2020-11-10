@@ -79,6 +79,27 @@ func ReadItems(filename string) ([]Item, error) {
 	return items, nil
 }
 
+func Sort(items []Item) {
+	for i := 0; i < len(items) - 1; i++ {
+		i1 := items[i]
+		i2 := items[i + 1]
+
+		if i1.Done != i2.Done {
+			if i2.Done == true {
+				items[i], items[i + 1] = items[i + 1], items[i]
+			} 
+		} else if i1.Priority != i2.Priority {
+			if i1.Priority < i2.Priority {
+				items[i], items[i + 1] = items[i + 1], items[i]
+			}
+		} else {
+			if i1.Position < i2.Position {
+				items[i], items[i + 1] = items[i + 1], items[i]
+			}
+		}
+	}
+}
+
 func (s ByPri) Len() int {
 	return len(s)
 }
