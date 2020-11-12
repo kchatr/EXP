@@ -68,9 +68,15 @@ func listRun(cmd *cobra.Command, args []string) {
 
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string {"Position", "Done?", "Priority", "Task"})
-	table.SetColumnColor(tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
+
+	table.SetHeaderColor(tablewriter.Colors{tablewriter.Bold, tablewriter.BgHiBlueColor},
+		tablewriter.Colors{tablewriter.FgWhiteColor, tablewriter.Bold, tablewriter.BgHiBlueColor},
+		tablewriter.Colors{tablewriter.BgHiBlueColor, tablewriter.FgWhiteColor},
+		tablewriter.Colors{tablewriter.BgHiBlueColor, tablewriter.FgWhiteColor})
+
+	table.SetColumnColor(tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiCyanColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
-		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiMagentaColor},
 		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor})
 
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
