@@ -89,11 +89,11 @@ func Sort(items []Item) {
 				items[i], items[i + 1] = items[i + 1], items[i]
 			} 
 		} else if i1.Priority != i2.Priority {
-			if i1.Priority < i2.Priority {
+			if i1.Priority > i2.Priority {
 				items[i], items[i + 1] = items[i + 1], items[i]
 			}
 		} else {
-			if i1.Position < i2.Position {
+			if i1.Position > i2.Position {
 				items[i], items[i + 1] = items[i + 1], items[i]
 			}
 		}
