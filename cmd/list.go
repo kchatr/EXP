@@ -16,13 +16,14 @@ limitations under the License.
 package cmd
 
 import (
-	"fmt"
+	// "fmt"
 	"log"
 	// "sort"
 	"os"
 	"text/tabwriter"
 	"github.com/kchatr/exp/todo"
 	"github.com/spf13/cobra"
+	"github.com/olekukonko/tablewriter"
 )
 
 // listCmd represents the list command
@@ -42,6 +43,8 @@ var (
 func listRun(cmd *cobra.Command, args []string) {
 	items, err := todo.ReadItems(dataFile)
 
+	var data [][]string
+
 	if len(items) == 0 {
 		log.Println("No To-Do's in Your List - use the create command to get started!")
 		return
@@ -54,15 +57,39 @@ func listRun(cmd *cobra.Command, args []string) {
 	// sort.Sort(todo.ByPri(items))
 	todo.Sort(items)
 
+	for _, i := range items {
+		var temp []string
+		temp = append(temp, i.Label())
+		temp = append(temp, i.PrettyDone())
+		temp = append(temp, i.PrettyPrint())
+		temp = append(temp, i.Text)
+		data = append(data, temp)
+	}
+
+	table := tablewriter.NewWriter(os.Stdout)
+	table.SetHeader([]string {"Position", "Done?", "Priority", "Task"})
+	table.SetColumnColor(tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiRedColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgHiBlackColor},
+		tablewriter.Colors{tablewriter.Bold, tablewriter.FgBlackColor})
+
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 
-	fmt.Fprintln(w, "Position" + "\t" + "Done?" + "\t" + "Priority" + "\t" + "Task")
+	// fmt.Fprintln(w, "Position" + "\t" + "Done?" + "\t" + "Priority" + "\t" + "Task")
 
-	for _, i := range items {
-		if allFlag || i.Done == doneFlag {
-			fmt.Fprintln(w, i.Label() + "\t" + i.PrettyDone() + "\t" + i.PrettyPrint() + "\t" + i.Text + "\t")
+	// for _, i := range items {
+	// 	if allFlag || i.Done == doneFlag {
+	// 		fmt.Fprintln(w, i.Label() + "\t" + i.PrettyDone() + "\t" + i.PrettyPrint() + "\t" + i.Text + "\t")
+	// 	}
+	// }
+
+	for p, i := range data {
+		if allFlag || items[p].Done == doneFlag {
+			table.Append(i)
 		}
 	}
+
+	table.Render()
 
 	w.Flush()
 
