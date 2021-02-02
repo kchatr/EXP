@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Kaushik Chatterjee <kchatr1729@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,9 +16,7 @@ limitations under the License.
 package cmd
 
 import (
-	// "fmt"
 	"log"
-	// "sort"
 	"os"
 	"text/tabwriter"
 	"github.com/kchatr/exp/todo"
@@ -35,28 +33,38 @@ var listCmd = &cobra.Command{
 	Run: listRun,
 }
 
+// Declares the variables to be used in this file
 var (
 	doneFlag bool
 	allFlag bool
 )
-
+/*
+Run when the list command is run within the CLI application.
+Uses the top-down development principles of stepwise refinement and procedural abstraction to aid in both development and maintainability.
+*/
 func listRun(cmd *cobra.Command, args []string) {
+	
+	// Items are read in using ReadItems; an example of stepwise refinement and procedural abstraction.
 	items, err := todo.ReadItems(dataFile)
 
 	var data [][]string
 
+	// Selection statement run to check if there are no arguments provided
 	if len(items) == 0 {
 		log.Println("No To-Do's in Your List - use the create command to get started!")
 		return
 	}
 
+	// Selection statement run to check if there was an error from reading the data
 	if err != nil {
 		log.Printf("%v", err)
 	} 
 
-	// sort.Sort(todo.ByPri(items))
+	// Calls Sort method created in todo.go; an example of stepwise refinement
 	todo.Sort(items)
 
+	// Iterative statement that appends all of the To-Dos in the list to a String array
+	// Sequential statements are run within the FOR-EACH loop
 	for _, i := range items {
 		var temp []string
 		temp = append(temp, i.Label())
@@ -66,6 +74,11 @@ func listRun(cmd *cobra.Command, args []string) {
 		data = append(data, temp)
 	}
 
+	
+	/*
+	Sets the parameters for the To-Do list displayed as a table to the user. 
+	Controls the appearence of the GUI.
+	*/
 	table := tablewriter.NewWriter(os.Stdout)
 	table.SetHeader([]string {"Position", "Done?", "Priority", "Task"})
 
@@ -81,22 +94,17 @@ func listRun(cmd *cobra.Command, args []string) {
 
 	w := tabwriter.NewWriter(os.Stdout, 3, 0, 1, ' ', 0)
 
-	// fmt.Fprintln(w, "Position" + "\t" + "Done?" + "\t" + "Priority" + "\t" + "Task")
-
-	// for _, i := range items {
-	// 	if allFlag || i.Done == doneFlag {
-	// 		fmt.Fprintln(w, i.Label() + "\t" + i.PrettyDone() + "\t" + i.PrettyPrint() + "\t" + i.Text + "\t")
-	// 	}
-	// }
-
+	// Iterative statement that appends all To-Do items marked done based on the condition of if either the --all or --done flag is active.
 	for p, i := range data {
 		if allFlag || items[p].Done == doneFlag {
 			table.Append(i)
 		}
 	}
 
+	// Renders the table
 	table.Render()
 
+	// Flushes the writer
 	w.Flush()
 
 }

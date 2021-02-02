@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 Kaushik Chatterjee
+Copyright © 2020 Kaushik Chatterjee <kchatr1729@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,6 +13,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+/*
+This program was created in Cobra, an open source library by Steve Francia (spf13), written in Go for creating command line interface (CLI) applications. 
+This project was roughly inspired by Mr. Francia's workshop on creating CLI apps with Cobra at OSCON 2017.
+My product is a more complete and complicated application from the one presented there: https://spf13.com/presentation/building-an-awesome-cli-app-in-go-oscon/
+*/
+
 package cmd
 
 import (
@@ -34,9 +41,6 @@ var rootCmd = &cobra.Command{
 	Long: `
 	EXP is designed to be minimalistic and unobtrusive, allowing you to focus on what really matters. As Mark Twain said, 'The secret of getting ahead is getting started. The secret of getting started is breaking your complex overwhelming tasks into small, manageable tasks, and then starting on the first one.'
 	`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	//	Run: func(cmd *cobra.Command, args []string) { },
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

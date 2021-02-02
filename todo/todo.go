@@ -1,3 +1,19 @@
+/*
+Copyright © 2020 Kaushik Chatterjee <kchatr1729@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package todo
 
 import (
@@ -7,6 +23,9 @@ import (
 	"io/ioutil"
 )
 
+/*
+A struct is analagous to a class and represents a data structure containing a collection of properties associated with a To-Do item
+*/
 type Item struct {
 	Text string
 	Priority int
@@ -16,6 +35,9 @@ type Item struct {
 
 type ByPri []Item
 
+/*
+Sets the priority of the desired To-Do (1 being the highest and 3 being the lowest; the default is 2).
+*/
 func (i *Item) SetPriority(pri int) {
 	switch pri {
 	case 1:
@@ -27,10 +49,16 @@ func (i *Item) SetPriority(pri int) {
 	}
 }
 
+/*
+An example of procedural abstraction: A helper method that provides the To-Do with a position label.
+*/
 func (i *Item) Label() string {
 	return strconv.Itoa(i.Position) + "."
 }
 
+/*
+An example of procedural abstraction: A helper method to make the position printing prettier.
+*/
 func (i *Item) PrettyPrint() string {
 	if i.Priority == 1 {
 		return "(1)-High"
@@ -41,6 +69,10 @@ func (i *Item) PrettyPrint() string {
 	}
 }
 
+
+/*
+An example of procedural abstraction: A helper method to save To-Do items to the local file storing all user To-Do.
+*/
 func SaveItems(filename string, items []Item) error {
 
 	b, err := json.Marshal(items)
@@ -54,6 +86,9 @@ func SaveItems(filename string, items []Item) error {
 	return nil
 }
 
+/*
+An example of procedural abstraction: A helper method to read & return To-Do items from the local file storing all user To-Dos.
+*/
 func ReadItems(filename string) ([]Item, error) {
 
 	if _, file_err := os.Stat(filename); os.IsNotExist(file_err) {
@@ -79,6 +114,11 @@ func ReadItems(filename string) ([]Item, error) {
 	return items, nil
 }
 
+
+/*
+A custom sorting algorithm that sorts the To-Do list based on the criteria of completion, priority, and finally position.
+Uses iteration, sequencing, and selection in the algorithm and runs in a time and space complexity of O(n).
+*/
 func Sort(items []Item) {
 	for i := 0; i < len(items) - 1; i++ {
 		i1 := items[i]
@@ -100,27 +140,31 @@ func Sort(items []Item) {
 	}
 }
 
-func (s ByPri) Len() int {
-	return len(s)
-}
+// func (s ByPri) Len() int {
+// 	return len(s)
+// }
 
-func (s ByPri) Swap(i, j int) {
-	s[i], s[j] = s[j], s[i]
-}
+// func (s ByPri) Swap(i, j int) {
+// 	s[i], s[j] = s[j], s[i]
+// }
 
-func (s ByPri) Less(i, j int) bool{
-	i1 := s[i]
-	i2 := s[j]
+// func (s ByPri) Less(i, j int) bool{
+// 	i1 := s[i]
+// 	i2 := s[j]
 
-	if i1.Done != i2.Done {
-		return i1.Done
-	} else if i1.Priority != i2.Priority{
-		return i1.Priority < i2.Priority
-	} else {
-		return i1.Position < i2.Position
-	}
-}
+// 	if i1.Done != i2.Done {
+// 		return i1.Done
+// 	} else if i1.Priority != i2.Priority{
+// 		return i1.Priority < i2.Priority
+// 	} else {
+// 		return i1.Position < i2.Position
+// 	}
+// }
 
+
+/*
+An example of procedural abstraction: A helper method to make the done printing prettier.
+*/
 func (i *Item) PrettyDone() string {
 	if i.Done == true {
 		return "✓"

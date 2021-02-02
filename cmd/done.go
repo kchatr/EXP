@@ -1,5 +1,5 @@
 /*
-Copyright © 2020 NAME HERE <EMAIL ADDRESS>
+Copyright © 2020 Kaushik Chatterjee <kchatr1729@gmail.com>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -19,10 +19,9 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	"sort"
+	// "sort"
 	"github.com/kchatr/exp/todo"
 	"github.com/spf13/cobra"
-	// "github.com/spf13/viper"
 )
 
 // doneCmd represents the done command
@@ -34,27 +33,33 @@ var doneCmd = &cobra.Command{
 	Run: doneRun,
 }
 
+/*
+Run when the done command is run within the CLI application.
+Uses the top-down development principles of stepwise refinement and procedural abstraction to aid in both development and maintainability.
+*/
+
 func doneRun(cmd *cobra.Command, args []string) {
 
+	// Selection statement run to check and handle the case if there are no arguments provided
 	if len(args) == 0 {
 		log.Println("Please enter the position of the To-Do you would like to mark as compelted.")
 		return
 	}
 	
-	items, err := todo.ReadItems(dataFile)
-	i, err := strconv.Atoi(args[0])
+	items, err := todo.ReadItems(dataFile) // Returns the To-Do items and an error value from .expdos.json 
+	i, err := strconv.Atoi(args[0]) // i is the position of the To-Do item to be marked done.
 
+	// Selection statement run to check if there is an error returned by ReadItems()
 	if err != nil {
 		log.Fatalln(args[0], "is not a valid label\n", err)
 	}
-
-
+	
+	// Selection statement run to check if the position of the item is valid
 	if i > 0 {
-		items[i-1].Done = true
-		fmt.Printf("%q %v\n", items[i - 1].Text, "marked done.")
-
-		sort.Sort(todo.ByPri(items))
-		todo.SaveItems(dataFile, items)
+		items[i-1].Done = true // Set the boolean done property of the To-Do item to true
+		fmt.Printf("%q %v\n", items[i - 1].Text, "marked done.") // Indicate to user that item was marked as done.
+		todo.Sort(items) // Sort the list
+		todo.SaveItems(dataFile, items) // Save the items to the local database, .expdos.json
 	} else {
 		log.Println(i, "doesn't match any numbers")
 	}
