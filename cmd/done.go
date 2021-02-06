@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"log"
 	"strconv"
-	// "sort"
 	"github.com/kchatr/exp/todo"
 	"github.com/spf13/cobra"
 )
@@ -54,7 +53,7 @@ func doneRun(cmd *cobra.Command, args []string) {
 		log.Fatalln(args[0], "is not a valid label\n", err)
 	}
 	
-	// Selection statement run to check if the position of the item is valid
+	// Selection statement run to check if the To-Do position the user entered is valid
 	if i > 0 {
 		items[i-1].Done = true // Set the boolean done property of the To-Do item to true
 		fmt.Printf("%q %v\n", items[i - 1].Text, "marked done.") // Indicate to user that item was marked as done.

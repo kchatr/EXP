@@ -62,10 +62,21 @@ An example of procedural abstraction: A helper method to make the position print
 func (i *Item) PrettyPrint() string {
 	if i.Priority == 1 {
 		return "(1)-High"
-	} else if i.Priority == 3{
+	} else if i.Priority == 3 {
 		return "(3)-Low"
 	} else {
 		return "(2)-Med" 
+	}
+}
+
+/*
+An example of procedural abstraction: A helper method to make the done printing prettier.
+*/
+func (i *Item) PrettyDone() string {
+	if i.Done == true {
+		return "✓"
+	} else {
+		return "X"
 	}
 }
 
@@ -117,58 +128,45 @@ func ReadItems(filename string) ([]Item, error) {
 
 /*
 A custom sorting algorithm that sorts the To-Do list based on the criteria of completion, priority, and finally position.
-Uses iteration, sequencing, and selection in the algorithm and runs in a time and space complexity of O(n).
+Uses iteration, sequencing, and selection in the algorithm; goes through To-Do list and swaps items if the first is 'lesser'
+runs in a time complexity of O(n^2) and space complexity of O(n).
 */
 func Sort(items []Item) {
 	for i := 0; i < len(items) - 1; i++ {
-		i1 := items[i]
-		i2 := items[i + 1]
+		for j := i + 1; j < len(items); j++ {
 
-		if i1.Done != i2.Done {
-			if i2.Done == true {
-				items[i], items[i + 1] = items[i + 1], items[i]
-			} 
-		} else if i1.Priority != i2.Priority {
-			if i1.Priority > i2.Priority {
-				items[i], items[i + 1] = items[i + 1], items[i]
+		less := less(items, i, j)
+		
+			if !less {
+				swap(items, i, j)
 			}
-		} else {
-			if i1.Position > i2.Position {
-				items[i], items[i + 1] = items[i + 1], items[i]
-			}
+
 		}
+
 	}
 }
 
-// func (s ByPri) Len() int {
-// 	return len(s)
-// }
-
-// func (s ByPri) Swap(i, j int) {
-// 	s[i], s[j] = s[j], s[i]
-// }
-
-// func (s ByPri) Less(i, j int) bool{
-// 	i1 := s[i]
-// 	i2 := s[j]
-
-// 	if i1.Done != i2.Done {
-// 		return i1.Done
-// 	} else if i1.Priority != i2.Priority{
-// 		return i1.Priority < i2.Priority
-// 	} else {
-// 		return i1.Position < i2.Position
-// 	}
-// }
-
+/*
+swap() is used as a helper methon in Sort(); an example of top down development and stepwise refinement.
+Method is only available in todo.go i.e. not imported, so it is also an example of data hiding.
+*/
+func swap(s []Item, i, j int) {
+	s[i], s[j] = s[j], s[i]
+}
 
 /*
-An example of procedural abstraction: A helper method to make the done printing prettier.
+less() is used as a helper methon in Sort(); an example of top down development and stepwise refinement.
+Method is only available in todo.go i.e. not imported, so it is also an example of data hiding.
 */
-func (i *Item) PrettyDone() string {
-	if i.Done == true {
-		return "✓"
+func less(s []Item, i, j int) bool{
+	i1 := s[i]
+	i2 := s[j]
+
+	if i1.Done != i2.Done {
+		return i1.Done
+	} else if i1.Priority != i2.Priority{
+		return i1.Priority < i2.Priority
 	} else {
-		return "X"
+		return i1.Position < i2.Position
 	}
 }

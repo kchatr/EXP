@@ -47,7 +47,7 @@ Uses the top-down development principles of stepwise refinement and procedural a
 */
 func deleteRun(cmd *cobra.Command, args []string) {
 
-	var args_int = []int{} // A slice (Go's dynamic array implemenation) to store the arguments provided (i.e. the To-Dos to be deleted)
+	var args_int = []int{} // A slice (Go's dynamic array implementation) to store the arguments provided (i.e. the To-Dos to be deleted)
 
 	// Selection statement run to check if there are no arguments provided
 	if len(args) == 0 {
@@ -84,7 +84,7 @@ func deleteRun(cmd *cobra.Command, args []string) {
 		items = remove(items, i)
 	}
 
-	// Selection statement that saves the items to that database and if there is any error, displays it
+	// Selection statement that saves the items to that database and if there is an error, displays it
 	if err := todo.SaveItems(dataFile, items); err != nil {
 		log.Printf("%v", err)
 	}

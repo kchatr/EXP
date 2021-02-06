@@ -38,6 +38,7 @@ var (
 	doneFlag bool
 	allFlag bool
 )
+
 /*
 Run when the list command is run within the CLI application.
 Uses the top-down development principles of stepwise refinement and procedural abstraction to aid in both development and maintainability.
@@ -49,7 +50,7 @@ func listRun(cmd *cobra.Command, args []string) {
 
 	var data [][]string
 
-	// Selection statement run to check if there are no arguments provided
+	// Selection statement run to check if the To-Do list is empty
 	if len(items) == 0 {
 		log.Println("No To-Do's in Your List - use the create command to get started!")
 		return
